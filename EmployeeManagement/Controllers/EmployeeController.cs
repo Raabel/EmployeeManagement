@@ -113,12 +113,12 @@ namespace EmployeeManagement.Controllers
         // POST: Employee/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(int employeeId, FormCollection collection)
         {
             try
             {
                 // TODO: Add delete logic here
-                _employeeRepository.DeleteEmployee(id);
+                _employeeRepository.DeleteEmployee(employeeId);
                 return RedirectToAction("Index");
             }
             catch
