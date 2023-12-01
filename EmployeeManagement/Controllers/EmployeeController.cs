@@ -41,18 +41,22 @@ namespace EmployeeManagement.Controllers
         public ActionResult Create()
         {
             // Assuming you have a list of departments (you can retrieve this from the database)
-            var departments = new List<string> { "IT", "HR", "Finance", "Sales" };
+            //var departments = new List<string> { "IT", "HR", "Finance", "Sales" };
+
             var employees = _employeeRepository.GetEmployees();
 
             // Create a SelectList for the dropdown
-            ViewBag.DepartmentList = new SelectList(departments);
-
+            ViewBag.DepartmentList = new SelectList(GetDepartments());
+            
             // Return the view
-            return View(employees);
+            return View();
+
+            
         }
 
         // POST: Employee/Create
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Create(Employee employee)
         {
             var employees = _employeeRepository.GetEmployees();
@@ -73,8 +77,8 @@ namespace EmployeeManagement.Controllers
             }
 
             // If ModelState is not valid, return the view with validation errors
-            var departments = new List<string> { "IT", "HR", "Finance", "Sales" };
-            ViewBag.DepartmentList = new SelectList(departments);
+            //var departments = new List<string> { "IT", "HR", "Finance", "Sales" };
+            ViewBag.DepartmentList = new SelectList(GetDepartments());
             return View(employee);
         }
 
@@ -108,18 +112,31 @@ namespace EmployeeManagement.Controllers
 
         // POST: Employee/Delete/5
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, FormCollection collection)
         {
             try
             {
                 // TODO: Add delete logic here
-
+                _employeeRepository.DeleteEmployee(id);
                 return RedirectToAction("Index");
             }
             catch
             {
                 return View();
             }
+        }
+
+        public ActionResult EmployeeListPartial()
+        {
+            var employees = _employeeRepository.GetEmployees();
+            return PartialView("_EmployeeList", employees);
+        }
+
+        private List<string> GetDepartments()
+        {
+            // Dummy method to get a list of departments
+            return new List<string> { "IT", "HR", "Finance", "Sales" };
         }
     }
 }

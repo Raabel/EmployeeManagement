@@ -15,5 +15,6 @@
 
 <!-- Employee list container -->
 <div id="employeeList">
-    @Html.Partial("_EmployeeList", Model)
+    @*@Html.Partial("_EmployeeList", Model)*@
+    @Html.Action("EmployeeListPartial", "Employee")
 </div>
