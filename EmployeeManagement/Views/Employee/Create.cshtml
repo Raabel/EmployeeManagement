@@ -1,0 +1,19 @@
+﻿@model EmployeeManagement.Models.Employee
+
+@using (Ajax.BeginForm("Create", "Employee", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "employeeList" }))
+{
+    <!-- Form fields... -->
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.EmployeeDepartment, "Department")
+        @Html.DropDownListFor(model => model.EmployeeDepartment, (IEnumerable<SelectListItem>)ViewBag.DepartmentList, "Select Department", new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.EmployeeDepartment, "", new { @class = "text-danger" })
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create</button>
+}
+
+<!-- Employee list container -->
+<div id="employeeList">
+    @Html.Partial("_EmployeeList", Model)
+</div>
